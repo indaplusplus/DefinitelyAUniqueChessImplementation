@@ -17,7 +17,7 @@ public class Board {
   private void generateBoard() {
     for (int i = 8; i >= 1; i--) {
       for (int j = 1; j <= 8; j++) {
-        tileList.add(new Tile(new Position(i, j)));
+        tileList.add(new Tile(this, i, j));
       }
     }
   }
@@ -29,7 +29,7 @@ public class Board {
    */
   public Tile getTileAt(int x, int y) {
     for (Tile t : this.getTileList()) {
-      if (t.getPosition().getX() == x && t.getPosition().getY() == y) {
+      if (t.getX() == x && t.getY() == y) {
         return t;
       }
     }
@@ -43,5 +43,11 @@ public class Board {
   
   public ArrayList<Piece> getPieceList() {
     return this.pieceList;
+  }
+  
+  public void killPiece(Piece p) {
+    this.getPieceList().remove(p);
+    
+    //call an event for dead piece
   }
 }
