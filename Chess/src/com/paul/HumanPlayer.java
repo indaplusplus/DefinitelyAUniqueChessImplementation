@@ -1,5 +1,11 @@
 package com.paul;
 
-public class HumanPlayer {
+import com.paul.game.player.Player;
 
+public class HumanPlayer extends Player {
+
+  @Override
+  public String turn() {
+    return "";
+  }
 }

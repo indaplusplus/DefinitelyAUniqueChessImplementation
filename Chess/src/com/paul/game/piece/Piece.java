@@ -29,7 +29,7 @@ public abstract class Piece {
   }
 
   public abstract ArrayList<Tile> getAllowedMoves();
-
+  
   public boolean isAllowedTile(Tile t) {
     for (Tile allowed : this.getAllowedMoves()) {
       if (t.getX() == allowed.getX() && t.getY() == allowed.getY()) {
@@ -48,9 +48,13 @@ public abstract class Piece {
       this.setY(t.getY());
       
       if (p != null) {
-        b.killPiece(p);
+        this.killPiece(p);
       }
     }
+  }
+  
+  public void killPiece(Piece p) {
+    this.b.killPiece(this, p);
   }
   
   public Player getOwner() {

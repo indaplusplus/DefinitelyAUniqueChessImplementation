@@ -5,7 +5,7 @@ import com.paul.game.player.Player;
 public class TurnHandler {
 
   private int turn = 0;
-  private Player[] players;
+  private Player[] players = new Player[2];
 
   /**
    * @param player1 Player 1 - white.
@@ -19,8 +19,29 @@ public class TurnHandler {
     player2.setWhite(false);
   }
 
-  public Player turn() {
+  public void turn() {
+    boolean valid = false;
+    do {
+      String move = this.getActive().turn();
+      
+      Piece p = game.board.getTileAt(move[0]).getPiece();
+      Tile tile = game.board.getTileAt(move]1]);
+      valid = p.isAllowedTile(tile);
+      
+    } while(!valid);
+    
     turn = (turn + 1) % 2;
-    return players[turn];
+  }
+  
+  public Player getActive() {
+    return this.players[turn];
+  }
+  
+  public Player getWhite() {
+    return this.players[0];
+  }
+  
+  public Player getBlack() {
+    return this.players[1];
   }
 }

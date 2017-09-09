@@ -14,8 +14,14 @@ public abstract class Player {
     }
   }
   
+  public final boolean isWhite() {
+    return this.white;
+  }
+  
   /**
    * Runs when it's the player's turn.
+   * 
+   * @return Return a string of from where to where to move. I.e. "a2 a4"
    */
-  public abstract void turn();
+  public abstract String turn();
 }
