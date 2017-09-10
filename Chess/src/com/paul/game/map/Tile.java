@@ -1,7 +1,7 @@
 package com.paul.game.map;
 
-import com.paul.game.Position;
 import com.paul.game.piece.Piece;
+import com.paul.game.player.Player;
 
 public class Tile {
 
@@ -28,6 +28,15 @@ public class Tile {
     }
     
     return null;
+  }
+  
+  /**
+   * @param attacker The player who wants to attack.
+   * @return Returns if there is a piece on this tile that this player can attack.
+   */
+  public boolean hasPieceAndAttackableBy(Player attacker) {
+    return this.getPiece() != null
+        && this.getPiece().getOwner().isWhite() != attacker.isWhite();
   }
   
   public int getX() {

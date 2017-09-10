@@ -21,7 +21,8 @@ public abstract class Player {
   /**
    * Runs when it's the player's turn.
    * 
-   * @return Return a string of from where to where to move. I.e. "a2 a4"
+   * @return Returns an int array with coordinates from where to move.
+   * {0, 0, 1, 1} would be from (0, 0) to (1, 1) 
    */
-  public abstract String turn();
+  public abstract int[] turn();
 }

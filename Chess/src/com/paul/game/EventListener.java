@@ -1,7 +1,5 @@
 package com.paul.game;
 
-import java.util.ArrayList;
-
 import com.paul.game.piece.Piece;
 
 public interface EventListener {

@@ -1,6 +1,5 @@
 package com.paul.game.piece;
 
-import com.paul.game.Position;
 import com.paul.game.map.Board;
 import com.paul.game.map.Tile;
 import com.paul.game.player.Player;
@@ -9,7 +8,7 @@ import java.util.ArrayList;
 
 public abstract class Piece {
 
-  private final Board b;
+  protected final Board board;
   private Player owner;
   
   private int x;
@@ -20,8 +19,8 @@ public abstract class Piece {
    * @param x Start position X.
    * @param y Start position Y.
    */
-  public Piece(Board b, Player owner, int x, int y) {
-    this.b = b;
+  public Piece(Board board, Player owner, int x, int y) {
+    this.board = board;
     this.owner = owner;
     
     this.x = x;
@@ -30,7 +29,11 @@ public abstract class Piece {
 
   public abstract ArrayList<Tile> getAllowedMoves();
   
-  public boolean isAllowedTile(Tile t) {
+  /**
+   * @param t Which tile to move to.
+   * @return Returns if this piece can move there.
+   */
+  public boolean isAllowedMove(Tile t) {
     for (Tile allowed : this.getAllowedMoves()) {
       if (t.getX() == allowed.getX() && t.getY() == allowed.getY()) {
         return true;
@@ -40,21 +43,29 @@ public abstract class Piece {
     return false;
   }
   
+  /**
+   * Moves the piece if the move is allowed.
+   * @param t Which tile to move to.
+   */
   public void moveTo(Tile t) {
-    if (this.isAllowedTile(t)) {
+    if (this.isAllowedMove(t)) {
       Piece p = t.getPiece();
       
       this.setX(t.getX());
       this.setY(t.getY());
       
-      if (p != null) {
+      if (p != null && p.isWhite() != this.isWhite()) {
         this.killPiece(p);
       }
     }
   }
   
   public void killPiece(Piece p) {
-    this.b.killPiece(this, p);
+    this.board.killPiece(this, p);
+  }
+  
+  public boolean isWhite() {
+    return this.getOwner().isWhite();
   }
   
   public Player getOwner() {

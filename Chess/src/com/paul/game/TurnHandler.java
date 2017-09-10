@@ -1,9 +1,13 @@
 package com.paul.game;
 
+import com.paul.game.map.Tile;
+import com.paul.game.piece.Piece;
 import com.paul.game.player.Player;
 
 public class TurnHandler {
 
+  private Game game;
+  
   private int turn = 0;
   private Player[] players = new Player[2];
 
@@ -11,7 +15,9 @@ public class TurnHandler {
    * @param player1 Player 1 - white.
    * @param player2 Player 2 - black.
    */
-  public TurnHandler(Player player1, Player player2) {
+  public TurnHandler(Game game, Player player1, Player player2) {
+    this.game = game;
+    
     this.players[0] = player1;
     this.players[1] = player2;
     
@@ -21,14 +27,23 @@ public class TurnHandler {
 
   public void turn() {
     boolean valid = false;
+    
+    Piece piece = null;
+    Tile tile = null;
+    
     do {
-      String move = this.getActive().turn();
+      int[] move = this.getActive().turn();
       
-      Piece p = game.board.getTileAt(move[0]).getPiece();
-      Tile tile = game.board.getTileAt(move]1]);
-      valid = p.isAllowedTile(tile);
+      piece = game.board.getTileAt(move[0], move[1]).getPiece();
+      tile = game.board.getTileAt(move[2], move[3]);
       
-    } while(!valid);
+      valid = piece.isAllowedMove(tile)
+          && !(move[0] == move[2] && move[1] == move[3])
+          && piece.getOwner().equals(this.getActive());
+      
+    } while (!valid);
+    
+    piece.moveTo(tile);
     
     turn = (turn + 1) % 2;
   }

@@ -8,13 +8,13 @@ import com.paul.game.player.Player;
 
 public class Game {
 
-  private ArrayList<EventListener> eventListeners = new ArrayList<EventListener>();
+  private ArrayList<EventListener> eventListeners = new ArrayList<>();
   
   public TurnHandler turn;
   public Board board;
 
   public Game(Player player1, Player player2) {
-    this.turn = new TurnHandler(player1, player2);
+    this.turn = new TurnHandler(this, player1, player2);
     this.board = new Board(this);
   }
   

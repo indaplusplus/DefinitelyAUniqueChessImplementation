@@ -11,13 +11,20 @@ import com.paul.game.piece.Queen;
 import com.paul.game.piece.Rook;
 
 public class Main {
-
+  
+  public static Game game = new Game(new HumanPlayer(), new HumanPlayer());
+  
   public static void main(String[] args) {
-    Game game = new Game(new HumanPlayer(), new HumanPlayer());
-    
-    for (int i = 8; i >= 1; i--) {
-      for (int j = 1; j <= 8; j++) {
-        printProper(game.board.getTileAt(i, j));
+    while (true) {
+      print();
+      game.turn.turn();
+    }
+  }
+  
+  public static void print() {
+    for (int y = 1; y <= 8; y++) {
+      for (int x = 1; x <= 8; x++) {
+        printProper(game.board.getTileAt(x, y));
       }
       System.out.println();
     }
@@ -25,7 +32,7 @@ public class Main {
   
   public static void printProper(Tile t) {
     Piece p = t.getPiece();
-    
+
     if (p != null) {
       if (p instanceof Pawn) {
         System.out.print("P");
@@ -41,7 +48,7 @@ public class Main {
         System.out.print("K");
       }
     } else {
-      System.out.print(0);
+      System.out.print(".");
     }
   }
 }
