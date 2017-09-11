@@ -1,6 +1,7 @@
 package com.paul.game;
 
 import com.paul.game.map.Tile;
+import com.paul.game.piece.Pawn;
 import com.paul.game.piece.Piece;
 import com.paul.game.player.Player;
 
@@ -46,10 +47,33 @@ public class TurnHandler {
     piece.moveTo(tile);
     
     turn = (turn + 1) % 2;
+
+    if (game.board.getKing(this.getActive()).isStalemate()) {
+      if (game.board.getKing(this.getActive()).isCheckmate()) {
+        game.callEventCheckmate(this.getInactive());
+      } else {
+        game.callEventStalemate(this.getActive());
+      }
+    }
+  }
+  
+  public void handleEnPassantVuln() {
+    for (Piece piece : game.board.getPieceList()) {
+      if (piece instanceof Pawn
+          && piece.getOwner().equals(this.getActive())) {
+        Pawn pawn = (Pawn) piece;
+        
+        pawn.setEnPassantVuln(false);
+      }
+    }
   }
   
   public Player getActive() {
     return this.players[turn];
+  }
+  
+  public Player getInactive() {
+    return this.players[(turn + 1) % 2];
   }
   
   public Player getWhite() {

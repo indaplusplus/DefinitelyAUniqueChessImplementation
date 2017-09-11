@@ -17,7 +17,7 @@ public class Board {
   private ArrayList<Tile> tileList = new ArrayList<>();
   private ArrayList<Piece> pieceList = new ArrayList<>();
   
-  private Game game;
+  public Game game;
   
   public Board(Game game) {
     this.game = game;
@@ -94,13 +94,19 @@ public class Board {
     return this.pieceList;
   }
   
+  public King getKing(Player player) {
+    for (Piece p : this.getPieceList()) {
+      if (p instanceof King) {
+        return (King) p;
+      }
+    }
+    
+    return null;
+  }
+  
   public void killPiece(Piece attack, Piece victim) {
     this.getPieceList().remove(victim);
     
     this.game.callEventPieceKilled(attack, victim);
-  }
-  
-  public boolean isStalemateFor(Player player) {
-    return false;
   }
 }

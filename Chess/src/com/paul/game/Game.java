@@ -27,4 +27,16 @@ public class Game {
       el.eventPieceKilled(attack, victim);
     }
   }
+  
+  public void callEventStalemate(Player victim) {
+    for (EventListener el : eventListeners) {
+      el.eventStalemate(victim);
+    }
+  }
+  
+  public void callEventCheckmate(Player winner) {
+    for (EventListener el : eventListeners) {
+      el.eventCheckmate(winner);
+    }
+  }
 }
