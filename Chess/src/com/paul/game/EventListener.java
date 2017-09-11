@@ -14,13 +14,18 @@ public interface EventListener {
   
   /**
    * Calls when stalemate occurs.
-   * @param victim The player who is under attack.
    */
-  public void eventStalemate(Player victim);
+  public void eventStalemate();
   
   /**
    * Calls when checkmate occurs.
    * @param winner The player who won.
    */
   public void eventCheckmate(Player winner);
+  
+  /**
+   * Calls when check occurs.
+   * @param victim The victim of the attack.
+   */
+  public void eventCheck(Player victim);
 }

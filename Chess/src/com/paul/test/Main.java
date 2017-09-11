@@ -1,4 +1,4 @@
-package com.paul;
+package com.paul.test;
 
 import com.paul.game.Game;
 import com.paul.game.map.Tile;
@@ -12,10 +12,12 @@ import com.paul.game.piece.Rook;
 
 public class Main {
   
-  public static Game game = new Game(new HumanPlayer(), new HumanPlayer());
+  public static boolean continueGame = true;
+  
+  public static Game game = new Game(new HumanPlayer(1), new HumanPlayer(1));
   
   public static void main(String[] args) {
-    while (true) {
+    while (continueGame) {
       print();
       game.turn.turn();
     }

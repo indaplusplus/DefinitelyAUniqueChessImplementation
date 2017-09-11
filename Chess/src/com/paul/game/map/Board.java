@@ -27,8 +27,8 @@ public class Board {
   }
   
   private void generateBoard() {
-    for (int x = 1; x <= 8; x++) {
-      for (int y = 1; y <= 8; y++) {
+    for (int x = 1; x <= Game.width; x++) {
+      for (int y = 1; y <= Game.height; y++) {
         tileList.add(new Tile(this, x, y));
       }
     }
@@ -38,23 +38,23 @@ public class Board {
    * Generates pieces for the white and black player.
    */
   public void generatePieces() {
-    for (int x = 1; x <= 8; x++) {
-      this.pieceList.add(new Pawn(this, game.turn.getWhite(), x, 7));
+    for (int x = 1; x <= Game.width; x++) {
+      this.pieceList.add(new Pawn(this, game.turn.getWhite(), x, Game.height - 1));
     }
     
-    this.pieceList.add(new Rook(this, game.turn.getWhite(), 1, 8));
-    this.pieceList.add(new Rook(this, game.turn.getWhite(), 8, 8));
+    this.pieceList.add(new Rook(this, game.turn.getWhite(), 1, Game.height));
+    this.pieceList.add(new Rook(this, game.turn.getWhite(), 8, Game.height));
     
-    this.pieceList.add(new Knight(this, game.turn.getWhite(), 2, 8));
-    this.pieceList.add(new Knight(this, game.turn.getWhite(), 7, 8));
+    this.pieceList.add(new Knight(this, game.turn.getWhite(), 2, Game.height));
+    this.pieceList.add(new Knight(this, game.turn.getWhite(), 7, Game.height));
     
-    this.pieceList.add(new Bishop(this, game.turn.getWhite(), 3, 8));;
-    this.pieceList.add(new Bishop(this, game.turn.getWhite(), 6, 8));
+    this.pieceList.add(new Bishop(this, game.turn.getWhite(), 3, Game.height));;
+    this.pieceList.add(new Bishop(this, game.turn.getWhite(), 6, Game.height));
     
-    this.pieceList.add(new Queen(this, game.turn.getWhite(), 4, 8));
-    this.pieceList.add(new King(this, game.turn.getWhite(), 5, 8));
+    this.pieceList.add(new Queen(this, game.turn.getWhite(), 4, Game.height));
+    this.pieceList.add(new King(this, game.turn.getWhite(), 5, Game.height));
     
-    for (int x = 1; x <= 8; x++) {
+    for (int x = 1; x <= Game.width; x++) {
       this.pieceList.add(new Pawn(this, game.turn.getBlack(), x, 2));
     }
     

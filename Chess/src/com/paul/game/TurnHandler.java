@@ -30,31 +30,44 @@ public class TurnHandler {
     boolean valid = false;
     
     Piece piece = null;
-    Tile tile = null;
+    Tile moveFromTile = null;
+    Tile moveToTile = null;
     
     do {
       int[] move = this.getActive().turn();
       
-      piece = game.board.getTileAt(move[0], move[1]).getPiece();
-      tile = game.board.getTileAt(move[2], move[3]);
+      if (move[0] == move[2] && move[1] == move[3]) {
+        continue;
+      }
       
-      valid = piece.isAllowedMove(tile)
-          && !(move[0] == move[2] && move[1] == move[3])
+      moveFromTile = game.board.getTileAt(move[0], move[1]);
+      moveToTile = game.board.getTileAt(move[2], move[3]);
+      
+      if (moveFromTile == null || moveToTile == null) {
+        continue;
+      }
+      
+      piece = moveFromTile.getPiece();
+      
+      valid = piece != null
+          && piece.isAllowedMove(moveToTile)
           && piece.getOwner().equals(this.getActive());
       
     } while (!valid);
     
-    piece.moveTo(tile);
-    
-    turn = (turn + 1) % 2;
+    piece.moveTo(moveToTile);
 
-    if (game.board.getKing(this.getActive()).isStalemate()) {
-      if (game.board.getKing(this.getActive()).isCheckmate()) {
-        game.callEventCheckmate(this.getInactive());
+    if (game.board.getKing(this.getInactive()).isStalemate()) {
+      game.callEventStalemate();
+    } else if (game.board.getKing(this.getInactive()).isCheck()) {
+      if (game.board.getKing(this.getInactive()).isCheckmate()) {
+        game.callEventCheckmate(this.getActive());
       } else {
-        game.callEventStalemate(this.getActive());
+        game.callEventCheck(this.getInactive());
       }
     }
+    
+    turn = (turn + 1) % 2;
   }
   
   public void handleEnPassantVuln() {

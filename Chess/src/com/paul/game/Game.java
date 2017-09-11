@@ -8,6 +8,9 @@ import com.paul.game.player.Player;
 
 public class Game {
 
+  public static int width = 8;
+  public static int height = 8;
+  
   private ArrayList<EventListener> eventListeners = new ArrayList<>();
   
   public TurnHandler turn;
@@ -28,15 +31,21 @@ public class Game {
     }
   }
   
-  public void callEventStalemate(Player victim) {
+  public void callEventCheck(Player victim) {
     for (EventListener el : eventListeners) {
-      el.eventStalemate(victim);
+      el.eventCheck(victim);
     }
   }
   
   public void callEventCheckmate(Player winner) {
     for (EventListener el : eventListeners) {
       el.eventCheckmate(winner);
+    }
+  }
+  
+  public void callEventStalemate() {
+    for (EventListener el : eventListeners) {
+      el.eventStalemate();
     }
   }
 }
