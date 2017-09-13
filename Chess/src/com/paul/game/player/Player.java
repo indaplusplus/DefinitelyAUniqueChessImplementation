@@ -1,9 +1,5 @@
 package com.paul.game.player;
 
-import java.util.ArrayList;
-
-import com.paul.game.piece.Piece;
-
 public abstract class Player {
   
   private Boolean white;

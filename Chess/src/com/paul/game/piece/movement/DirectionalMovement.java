@@ -1,10 +1,10 @@
 package com.paul.game.piece.movement;
 
-import java.util.ArrayList;
-
 import com.paul.game.map.Board;
 import com.paul.game.map.Tile;
 import com.paul.game.piece.Piece;
+
+import java.util.ArrayList;
 
 public class DirectionalMovement {
 

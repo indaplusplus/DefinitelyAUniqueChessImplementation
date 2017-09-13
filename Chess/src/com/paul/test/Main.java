@@ -2,13 +2,7 @@ package com.paul.test;
 
 import com.paul.game.Game;
 import com.paul.game.map.Tile;
-import com.paul.game.piece.Bishop;
-import com.paul.game.piece.King;
-import com.paul.game.piece.Knight;
-import com.paul.game.piece.Pawn;
-import com.paul.game.piece.Piece;
-import com.paul.game.piece.Queen;
-import com.paul.game.piece.Rook;
+import com.paul.game.piece.*;
 
 public class Main {
   
@@ -18,13 +12,8 @@ public class Main {
   
   public static void main(String[] args) {
     game.addEventListener(new ChessEvents());
-    
+
     while (continueGame) {
-      print();
-      game.turn.turn();
-    }
-    
-    for (int i = 0; i < 200; i++) {
       print();
       game.turn.turn();
     }

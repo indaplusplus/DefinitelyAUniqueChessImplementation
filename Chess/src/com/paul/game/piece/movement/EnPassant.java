@@ -1,12 +1,11 @@
 package com.paul.game.piece.movement;
 
-import java.util.ArrayList;
-
 import com.paul.game.map.Board;
 import com.paul.game.map.Tile;
 import com.paul.game.piece.Pawn;
-import com.paul.game.piece.Piece;
 import com.paul.game.player.Player;
+
+import java.util.ArrayList;
 
 public class EnPassant {
   

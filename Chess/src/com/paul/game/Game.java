@@ -1,11 +1,11 @@
 package com.paul.game;
 
-import java.util.ArrayList;
-
 import com.paul.game.listeners.EventListener;
 import com.paul.game.map.Board;
 import com.paul.game.piece.Piece;
 import com.paul.game.player.Player;
+
+import java.util.ArrayList;
 
 public class Game {
 

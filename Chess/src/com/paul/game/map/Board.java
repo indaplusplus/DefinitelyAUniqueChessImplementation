@@ -1,13 +1,7 @@
 package com.paul.game.map;
 
 import com.paul.game.Game;
-import com.paul.game.piece.Bishop;
-import com.paul.game.piece.King;
-import com.paul.game.piece.Knight;
-import com.paul.game.piece.Pawn;
-import com.paul.game.piece.Piece;
-import com.paul.game.piece.Queen;
-import com.paul.game.piece.Rook;
+import com.paul.game.piece.*;
 import com.paul.game.piece.movement.EnPassant;
 import com.paul.game.player.Player;
 

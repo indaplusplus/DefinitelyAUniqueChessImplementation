@@ -1,9 +1,9 @@
 package com.paul.test;
 
+import com.paul.game.player.Player;
+
 import java.util.Random;
 import java.util.Scanner;
-
-import com.paul.game.player.Player;
 
 public class HumanPlayer extends Player {
 
