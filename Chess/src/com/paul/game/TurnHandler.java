@@ -27,8 +27,38 @@ public class TurnHandler {
   }
 
   public void turn() {
-    boolean valid = false;
+    handleEnPassantVuln();
+    handleValidMove();
+    handleMateVariants();
     
+    turn = (turn + 1) % 2;
+  }
+  
+  public void handleEnPassantVuln() {
+    for (Piece piece : game.board.getPieceList()) {
+      if (piece instanceof Pawn
+          && piece.getOwner().equals(this.getActive())) {
+        Pawn pawn = (Pawn) piece;
+        
+        pawn.setEnPassantVuln(false);
+      }
+    }
+  }
+  
+  public void handleMateVariants() {
+    if (game.board.getKing(this.getInactive()).isStalemate()) {
+      game.callEventStalemate();
+    } else if (game.board.getKing(this.getInactive()).isCheck()) {
+      if (game.board.getKing(this.getInactive()).isCheckmate()) {
+        game.callEventCheckmate(this.getActive());
+      } else {
+        game.callEventCheck(this.getInactive());
+      }
+    }
+  }
+  
+  public void handleValidMove() {
+    boolean valid = false;
     Piece piece = null;
     Tile moveFromTile = null;
     Tile moveToTile = null;
@@ -51,34 +81,12 @@ public class TurnHandler {
       
       valid = piece != null
           && piece.isAllowedMove(moveToTile)
-          && piece.getOwner().equals(this.getActive());
+          && piece.getOwner().equals(this.getActive())
+          && !game.board.getKing(this.getActive()).isCheckWithPieceAt(piece, moveToTile);
       
     } while (!valid);
     
     piece.moveTo(moveToTile);
-
-    if (game.board.getKing(this.getInactive()).isStalemate()) {
-      game.callEventStalemate();
-    } else if (game.board.getKing(this.getInactive()).isCheck()) {
-      if (game.board.getKing(this.getInactive()).isCheckmate()) {
-        game.callEventCheckmate(this.getActive());
-      } else {
-        game.callEventCheck(this.getInactive());
-      }
-    }
-    
-    turn = (turn + 1) % 2;
-  }
-  
-  public void handleEnPassantVuln() {
-    for (Piece piece : game.board.getPieceList()) {
-      if (piece instanceof Pawn
-          && piece.getOwner().equals(this.getActive())) {
-        Pawn pawn = (Pawn) piece;
-        
-        pawn.setEnPassantVuln(false);
-      }
-    }
   }
   
   public Player getActive() {

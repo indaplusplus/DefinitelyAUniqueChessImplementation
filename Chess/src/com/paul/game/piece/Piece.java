@@ -11,6 +11,7 @@ public abstract class Piece {
   protected final Board board;
   private Player owner;
   
+  private boolean enabled;
   private int x;
   private int y;
 
@@ -22,7 +23,8 @@ public abstract class Piece {
   public Piece(Board board, Player owner, int x, int y) {
     this.board = board;
     this.owner = owner;
-    
+
+    this.enabled = true;
     this.x = x;
     this.y = y;
   }
@@ -48,7 +50,8 @@ public abstract class Piece {
    * @param t Which tile to move to.
    */
   public void moveTo(Tile t) {
-    if (this.isAllowedMove(t)) {
+    if (this.isEnabled()
+        && this.isAllowedMove(t)) {
       Piece p = t.getPiece();
       
       this.setX(t.getX());
@@ -74,6 +77,14 @@ public abstract class Piece {
   
   public void setOwner(Player owner) {
     this.owner = owner;
+  }
+  
+  public boolean isEnabled() {
+    return this.enabled;
+  }
+  
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
   }
   
   public int getX() {

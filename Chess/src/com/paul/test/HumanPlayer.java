@@ -54,8 +54,6 @@ public class HumanPlayer extends Player {
     i[2] = Math.abs(r.nextInt() % 8) + 1;
     i[3] = Math.abs(r.nextInt() % 8) + 1;
     
-    System.out.println(i[0] + " " + i[1] + " " + i[2] + " " + i[3]);
-    
     return i;
   }
 }

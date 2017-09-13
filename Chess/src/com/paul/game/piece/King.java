@@ -36,8 +36,7 @@ public class King extends Piece {
   
   public boolean isTileAllowed(Tile tile) {
     return tile != null
-        && (tile.getPiece() == null || tile.hasPieceAndAttackableBy(this.getOwner()))
-        && (board.game.turn.getActive().equals(this.getOwner()) && !isCheckAt(tile));
+        && (tile.getPiece() == null || tile.hasPieceAndAttackableBy(this.getOwner()));
   }
   
   /**
@@ -47,38 +46,49 @@ public class King extends Piece {
     Tile kingTile = this.board.getTileAt(this.getX(), this.getY());
     
     for (Piece piece : this.board.getPieceList()) {
-      if (piece.isWhite() != this.isWhite() && piece.getAllowedMoves().contains(kingTile)) {
+      if (piece.isWhite() != this.isWhite()
+          && piece.isEnabled()
+          && piece.getAllowedMoves().contains(kingTile)) {
         return true;
       }
     }
     
     return false;
   }
-  
-  //none of the check/checkmate/stalemate methods account for the possibility of taking out enemies
-  
+
   /**
-   * @param x X coordinate for the king
-   * @param y Y coordinate for the king
+   * @param piece The piece to move
+   * @param tile The target tile
    * @return Returns if there is a check with the king at a specific tile
    */
-  public boolean isCheckAt(Tile tile) {
-    int oldX = this.getX();
-    int oldY = this.getY();
+  public boolean isCheckWithPieceAt(Piece piece, Tile tile) {
+    int oldX = piece.getX();
+    int oldY = piece.getY();
 
-    this.setX(tile.getX());
-    this.setY(tile.getY());
+    piece.setX(tile.getX());
+    piece.setY(tile.getY());
     
     boolean stalemate = this.isCheck();
     
-    this.setX(oldX);
-    this.setY(oldY);
+    piece.setX(oldX);
+    piece.setY(oldY);
     
     return stalemate;
   }
   
   public boolean isCheckmate() {
-    for (Piece piece : this.board.getPieceList()) { //does any possible move affect the check?
+    return this.isCheck() && !this.playerHasLegalMoves();
+  }
+  
+  public boolean isStalemate() {
+    return !this.isCheck() && !this.playerHasLegalMoves();
+  }
+  
+  /**
+   * @return Returns if the owner of this king can move any piece legally.
+   */
+  private boolean playerHasLegalMoves() {
+    for (Piece piece : board.getPieceList()) {
       if (piece.isWhite() == this.isWhite()) {
         ArrayList<Tile> allowedMoves = piece.getAllowedMoves();
 
@@ -86,15 +96,24 @@ public class King extends Piece {
         int oldY = piece.getY();
         
         for (Tile tile : allowedMoves) {
+          boolean hasEnemyPiece = tile.hasPieceAndAttackableBy(this.getOwner());
+          if (hasEnemyPiece) {
+            tile.getPiece().setEnabled(false);
+          }
+          
           piece.setX(tile.getX());
           piece.setY(tile.getY());
           
           boolean check = this.isCheck();
           
+          if (hasEnemyPiece) {
+            tile.getPiece().setEnabled(true);
+          }
+          
           if (!check) {
             piece.setX(oldX);
             piece.setY(oldY);
-            return false;
+            return true;
           }
         }
         
@@ -103,53 +122,6 @@ public class King extends Piece {
       }
     }
     
-    return this.isCheck();
-  }
-  
-  public boolean isStalemate() {
-    if (this.isCheck()) {
-      return false;
-    } else {
-      ArrayList<Tile> kingTiles = this.getAllowedMoves();
-      int oldKingX = this.getX();
-      int oldKingY = this.getY();
-      
-      for (Tile kingTile : kingTiles) {
-        this.setX(kingTile.getX());
-        this.setY(kingTile.getY());
-        
-        for (Piece piece : board.getPieceList()) {
-          if (piece.isWhite() == this.isWhite() && !(piece instanceof King)) {
-            ArrayList<Tile> allowedMoves = piece.getAllowedMoves();
-
-            int oldX = piece.getX();
-            int oldY = piece.getY();
-            
-            for (Tile tile : allowedMoves) {
-              piece.setX(tile.getX());
-              piece.setY(tile.getY());
-              
-              boolean check = this.isCheck();
-              
-              if (!check) {
-                piece.setX(oldX);
-                piece.setY(oldY);
-                this.setX(oldKingX);
-                this.setY(oldKingY);
-                return false;
-              }
-            }
-            
-            piece.setX(oldX);
-            piece.setY(oldY);
-          }
-        }
-      }
-      
-      this.setX(oldKingX);
-      this.setY(oldKingY);
-    }
-    
-    return true;
+    return false;
   }
 }
