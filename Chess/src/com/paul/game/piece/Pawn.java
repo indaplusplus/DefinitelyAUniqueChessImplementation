@@ -7,8 +7,6 @@ import com.paul.game.player.Player;
 import java.util.ArrayList;
 
 public class Pawn extends Piece {
-
-  private boolean enPassantVuln = false;
   
   public Pawn(Board board, Player owner, int x, int y) {
     super(board, owner, x, y);
@@ -23,7 +21,7 @@ public class Pawn extends Piece {
     
     addAllowedBasicMovement(allowed, direction);
     addAllowedBasicAttacks(allowed, direction);
-    allowed.addAll(getAllowedEnPassants());
+    allowed.addAll(this.board.enPassant.getAllowedEnPassants(this));
     
     return allowed;
   }
@@ -34,7 +32,7 @@ public class Pawn extends Piece {
     int prevY = this.getY();
     
     if (this.isAllowedMove(t)) {
-      if (getAllowedEnPassants().contains(t)) {
+      if (this.board.enPassant.getAllowedEnPassants(this).contains(t)) {
         Tile vulnPieceTile = board.getTileAt(t.getX(), this.getY());
         this.killPiece(vulnPieceTile.getPiece());
       } else {
@@ -50,18 +48,8 @@ public class Pawn extends Piece {
     }
     
     if (this.getX() == prevX && Math.abs(this.getY() - prevY) == 2) {
-      enPassantVuln = true;
-    } else {
-      enPassantVuln = false;
+      this.board.enPassant.addVulnerablePawn(this);
     }
-  }
-  
-  public boolean isEnPassantVuln() {
-    return this.enPassantVuln;
-  }
-  
-  public void setEnPassantVuln(boolean vuln) {
-    this.enPassantVuln = vuln;
   }
   
   private void addAllowedBasicMovement(ArrayList<Tile> allowed, int direction) {
@@ -94,34 +82,5 @@ public class Pawn extends Piece {
         && forwardRight.hasPieceAndAttackableBy(this.getOwner())) {
       allowed.add(forwardRight);
     }
-  }
-  
-  private ArrayList<Tile> getAllowedEnPassants() {
-    ArrayList<Tile> allowed = new ArrayList<Tile>();
-    int direction = this.isWhite() ? -1 : 1; 
-    
-    Tile left = this.board.getTileAt(this.getX() - 1, this.getY());
-    Tile leftForward = this.board.getTileAt(this.getX() - 1, this.getY() + direction);
-    
-    if (left != null
-        && leftForward != null
-        && left.hasPieceAndAttackableBy(this.getOwner())
-        && left.getPiece() instanceof Pawn
-        && ((Pawn) left.getPiece()).isEnPassantVuln()) {
-      allowed.add(leftForward);
-    }
-    
-    Tile right = this.board.getTileAt(this.getX() + 1, this.getY());
-    Tile rightForward = this.board.getTileAt(this.getX() + 1, this.getY() + direction);
-    
-    if (right != null
-        && rightForward != null
-        && right.hasPieceAndAttackableBy(this.getOwner())
-        && right.getPiece() instanceof Pawn
-        && ((Pawn) right.getPiece()).isEnPassantVuln()) {
-      allowed.add(rightForward);
-    }
-    
-    return allowed;
   }
 }

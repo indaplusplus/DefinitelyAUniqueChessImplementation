@@ -1,4 +1,4 @@
-package com.paul.game;
+package com.paul.game.listeners;
 
 import com.paul.game.piece.Piece;
 import com.paul.game.player.Player;

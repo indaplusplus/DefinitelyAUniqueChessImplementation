@@ -29,4 +29,6 @@ public abstract class Player {
    * {0, 0, 1, 1} would be from (0, 0) to (1, 1) 
    */
   public abstract int[] turn();
+  
+  public abstract int promotion();
 }

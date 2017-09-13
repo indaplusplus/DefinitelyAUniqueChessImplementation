@@ -8,6 +8,7 @@ import com.paul.game.piece.Pawn;
 import com.paul.game.piece.Piece;
 import com.paul.game.piece.Queen;
 import com.paul.game.piece.Rook;
+import com.paul.game.piece.movement.EnPassant;
 import com.paul.game.player.Player;
 
 import java.util.ArrayList;
@@ -18,9 +19,12 @@ public class Board {
   private ArrayList<Piece> pieceList = new ArrayList<>();
   
   public Game game;
+  public EnPassant enPassant;
   
   public Board(Game game) {
     this.game = game;
+    
+    this.enPassant = new EnPassant(this);
     
     generateBoard();
     generatePieces();

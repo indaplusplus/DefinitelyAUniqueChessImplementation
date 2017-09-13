@@ -14,7 +14,7 @@ public class Main {
   
   public static boolean continueGame = true;
   
-  public static Game game = new Game(new HumanPlayer(0), new HumanPlayer(1));
+  public static Game game = new Game(new HumanPlayer(0), new HumanPlayer(0));
   
   public static void main(String[] args) {
     game.addEventListener(new ChessEvents());

@@ -40,7 +40,7 @@ public class TurnHandler {
           && piece.getOwner().equals(this.getActive())) {
         Pawn pawn = (Pawn) piece;
         
-        pawn.setEnPassantVuln(false);
+        game.board.enPassant.removeVulnerablePawns(this.getActive());
       }
     }
   }

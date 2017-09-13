@@ -29,6 +29,11 @@ public class HumanPlayer extends Player {
     }
   }
   
+  @Override
+  public int promotion() {
+    return 0;
+  }
+  
   public int[] input() {
     System.out.println(this.isWhite());
     
