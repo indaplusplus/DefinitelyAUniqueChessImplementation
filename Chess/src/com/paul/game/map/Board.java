@@ -2,6 +2,7 @@ package com.paul.game.map;
 
 import com.paul.game.Game;
 import com.paul.game.piece.*;
+import com.paul.game.piece.movement.Castling;
 import com.paul.game.piece.movement.EnPassant;
 import com.paul.game.piece.movement.Promotion;
 import com.paul.game.player.Player;
@@ -17,12 +18,14 @@ public class Board {
 
   public EnPassant enPassant;
   public Promotion promotion;
+  public Castling castling;
   
   public Board(Game game) {
     this.game = game;
     
     this.enPassant = new EnPassant(this);
     this.promotion = new Promotion(this);
+    this.castling = new Castling(this);
     
     generateBoard();
     generatePieces();

@@ -9,13 +9,6 @@ import java.util.ArrayList;
 
 public class Castling {
 
-  /*
-  Conditions:
-  The king and rook hasn't moved yet
-  No pieces between the two
-  Can't castle from, through or into check
-   */
-
   private Board board;
 
   public Castling(Board board) {
@@ -25,7 +18,7 @@ public class Castling {
   public ArrayList<Tile> getAllowedCastlingMoves(King king) {
     ArrayList<Tile> allowed = new ArrayList<>();
 
-    if (!king.isCheck()) {
+    if (!king.getHasMoved() && !king.isCheck()) {
       for (Piece piece : this.board.getPieceList()) {
         if (piece instanceof Rook
             && piece.isWhite() == king.isWhite()
@@ -77,7 +70,7 @@ public class Castling {
       return true;
     }
 
-    for (int x = king.getX();
+    for (int x = king.getX() + searchDirection;
         x != king.getX() + (searchDirection * searchDistanceX);
         x += searchDirection) {
 

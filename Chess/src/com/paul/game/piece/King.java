@@ -24,10 +24,35 @@ public class King extends Piece {
     addTileIfAllowed(allowed, board.getTileAt(this.getX() - 1, this.getY() - 1));
     addTileIfAllowed(allowed, board.getTileAt(this.getX(), this.getY() - 1));
     addTileIfAllowed(allowed, board.getTileAt(this.getX() + 1, this.getY() - 1));
+
+    if (this.getOwner().isWhite() == board.game.turn.getActive().isWhite()) {
+      allowed.addAll(this.board.castling.getAllowedCastlingMoves(this));
+    }
     
     return allowed;
   }
-  
+
+  @Override
+  public void moveTo(Tile t) {
+    if (this.isEnabled()
+        && this.isAllowedMove(t)) {
+      if (this.board.castling.getAllowedCastlingMoves(this).contains(t)) {
+        this.board.castling.moveComplementaryRook(this, t);
+      } else {
+        Piece p = t.getPiece();
+
+        if (p != null && p.isWhite() != this.isWhite()) {
+          this.killPiece(p);
+        }
+      }
+
+      this.setX(t.getX());
+      this.setY(t.getY());
+
+      this.setHasMoved(true);
+    }
+  }
+
   public void addTileIfAllowed(ArrayList<Tile> allowed, Tile tile) {
     if (this.isTileAllowed(tile)) {
       allowed.add(tile);
