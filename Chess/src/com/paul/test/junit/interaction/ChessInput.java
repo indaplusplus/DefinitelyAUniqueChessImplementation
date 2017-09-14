@@ -7,19 +7,23 @@ import com.paul.game.player.Player;
 public class ChessInput implements EventListener {
 
 
-    @Override public void eventPieceKilled(Piece attack, Piece victim) {
+  @Override
+  public void eventPieceKilled(Piece attack, Piece victim) {
 
-    }
+  }
 
-    @Override public void eventStalemate() {
+  @Override
+  public void eventStalemate() {
 
-    }
+  }
 
-    @Override public void eventCheckmate(Player winner) {
+  @Override
+  public void eventCheckmate(Player winner) {
 
-    }
+  }
 
-    @Override public void eventCheck(Player victim) {
+  @Override
+  public void eventCheck(Player victim) {
 
-    }
+  }
 }

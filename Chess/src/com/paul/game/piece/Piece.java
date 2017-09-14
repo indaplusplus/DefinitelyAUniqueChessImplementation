@@ -12,6 +12,8 @@ public abstract class Piece {
   private Player owner;
   
   private boolean enabled;
+  private boolean hasMoved;
+
   private int x;
   private int y;
 
@@ -25,6 +27,8 @@ public abstract class Piece {
     this.owner = owner;
 
     this.enabled = true;
+    this.hasMoved = false;
+
     this.x = x;
     this.y = y;
   }
@@ -56,6 +60,8 @@ public abstract class Piece {
       
       this.setX(t.getX());
       this.setY(t.getY());
+
+      this.setHasMoved(true);
       
       if (p != null && p.isWhite() != this.isWhite()) {
         this.killPiece(p);
@@ -86,7 +92,15 @@ public abstract class Piece {
   public void setEnabled(boolean enabled) {
     this.enabled = enabled;
   }
-  
+
+  public void setHasMoved(boolean moved) {
+    this.hasMoved = moved;
+  }
+
+  public boolean getHasMoved() {
+    return this.hasMoved;
+  }
+
   public int getX() {
     return x;
   }

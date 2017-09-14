@@ -3,6 +3,7 @@ package com.paul.game.map;
 import com.paul.game.Game;
 import com.paul.game.piece.*;
 import com.paul.game.piece.movement.EnPassant;
+import com.paul.game.piece.movement.Promotion;
 import com.paul.game.player.Player;
 
 import java.util.ArrayList;
@@ -13,12 +14,15 @@ public class Board {
   private ArrayList<Piece> pieceList = new ArrayList<>();
   
   public Game game;
+
   public EnPassant enPassant;
+  public Promotion promotion;
   
   public Board(Game game) {
     this.game = game;
     
     this.enPassant = new EnPassant(this);
+    this.promotion = new Promotion(this);
     
     generateBoard();
     generatePieces();
@@ -37,36 +41,36 @@ public class Board {
    */
   public void generatePieces() {
     for (int x = 1; x <= Game.width; x++) {
-      this.pieceList.add(new Pawn(this, game.turn.getWhite(), x, Game.height - 1));
+      addPiece(new Pawn(this, game.turn.getWhite(), x, Game.height - 1));
     }
     
-    this.pieceList.add(new Rook(this, game.turn.getWhite(), 1, Game.height));
-    this.pieceList.add(new Rook(this, game.turn.getWhite(), 8, Game.height));
+    addPiece(new Rook(this, game.turn.getWhite(), 1, Game.height));
+    addPiece(new Rook(this, game.turn.getWhite(), 8, Game.height));
     
-    this.pieceList.add(new Knight(this, game.turn.getWhite(), 2, Game.height));
-    this.pieceList.add(new Knight(this, game.turn.getWhite(), 7, Game.height));
+    addPiece(new Knight(this, game.turn.getWhite(), 2, Game.height));
+    addPiece(new Knight(this, game.turn.getWhite(), 7, Game.height));
     
-    this.pieceList.add(new Bishop(this, game.turn.getWhite(), 3, Game.height));;
-    this.pieceList.add(new Bishop(this, game.turn.getWhite(), 6, Game.height));
+    addPiece(new Bishop(this, game.turn.getWhite(), 3, Game.height));;
+    addPiece(new Bishop(this, game.turn.getWhite(), 6, Game.height));
     
-    this.pieceList.add(new Queen(this, game.turn.getWhite(), 4, Game.height));
-    this.pieceList.add(new King(this, game.turn.getWhite(), 5, Game.height));
+    addPiece(new Queen(this, game.turn.getWhite(), 4, Game.height));
+    addPiece(new King(this, game.turn.getWhite(), 5, Game.height));
     
     for (int x = 1; x <= Game.width; x++) {
-      this.pieceList.add(new Pawn(this, game.turn.getBlack(), x, 2));
+      addPiece(new Pawn(this, game.turn.getBlack(), x, 2));
     }
     
-    this.pieceList.add(new Rook(this, game.turn.getBlack(), 1, 1));
-    this.pieceList.add(new Rook(this, game.turn.getBlack(), 8, 1));
+    addPiece(new Rook(this, game.turn.getBlack(), 1, 1));
+    addPiece(new Rook(this, game.turn.getBlack(), 8, 1));
     
-    this.pieceList.add(new Knight(this, game.turn.getBlack(), 2, 1));
-    this.pieceList.add(new Knight(this, game.turn.getBlack(), 7, 1));
+    addPiece(new Knight(this, game.turn.getBlack(), 2, 1));
+    addPiece(new Knight(this, game.turn.getBlack(), 7, 1));
     
-    this.pieceList.add(new Bishop(this, game.turn.getBlack(), 3, 1));
-    this.pieceList.add(new Bishop(this, game.turn.getBlack(), 6, 1));
+    addPiece(new Bishop(this, game.turn.getBlack(), 3, 1));
+    addPiece(new Bishop(this, game.turn.getBlack(), 6, 1));
     
-    this.pieceList.add(new Queen(this, game.turn.getBlack(), 4, 1));
-    this.pieceList.add(new King(this, game.turn.getBlack(), 5, 1));
+    addPiece(new Queen(this, game.turn.getBlack(), 4, 1));
+    addPiece(new King(this, game.turn.getBlack(), 5, 1));
   }
   
   /**
@@ -106,5 +110,9 @@ public class Board {
     this.getPieceList().remove(victim);
     
     this.game.callEventPieceKilled(attack, victim);
+  }
+
+  public void addPiece(Piece piece) {
+    this.getPieceList().add(piece);
   }
 }

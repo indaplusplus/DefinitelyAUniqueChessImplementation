@@ -1,14 +1,34 @@
 package com.paul.test.junit.interaction;
 
 import com.paul.game.player.Player;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class ChessOutput extends Player {
 
-    @Override public int[] turn() {
-        return new int[] {0, 0, 0, 0};
-    }
+  private Queue<int[]> moveQueue = new LinkedList<>();
+  private Queue<Integer> promotionQueue = new LinkedList<>();
 
-    @Override public int promotion() {
-        return 0;
-    }
+
+  public void addMoveToQueue(int[] move) {
+    this.moveQueue.add(move);
+  }
+
+  public int getMoveQueueSize() {
+    return this.moveQueue.size();
+  }
+
+  public void addPromotionToQueue(int promotion) {
+    this.promotionQueue.add(promotion);
+  }
+
+  @Override
+  public int[] turn() {
+    return moveQueue.remove();
+  }
+
+  @Override
+  public int promotion() {
+    return promotionQueue.remove();
+  }
 }

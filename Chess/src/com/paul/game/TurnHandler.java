@@ -9,7 +9,7 @@ import com.paul.game.player.PlayerMove;
 public class TurnHandler {
 
   private Game game;
-  
+
   private int turn = 0;
   private Player[] players = new Player[2];
 
@@ -19,10 +19,10 @@ public class TurnHandler {
    */
   public TurnHandler(Game game, Player player1, Player player2) {
     this.game = game;
-    
+
     this.players[0] = player1;
     this.players[1] = player2;
-    
+
     player1.setWhite(true);
     player2.setWhite(false);
   }
@@ -34,7 +34,10 @@ public class TurnHandler {
 
     if (playerMove.isValidMove()) {
       handleEnPassantVuln();
+
       playerMove.executeMove();
+      this.game.board.promotion.handlePromotions(this.getActive());
+
       handleMateVariants();
 
       turn = (turn + 1) % 2;
@@ -49,12 +52,12 @@ public class TurnHandler {
       if (piece instanceof Pawn
           && piece.getOwner().equals(this.getActive())) {
         Pawn pawn = (Pawn) piece;
-        
+
         game.board.enPassant.removeVulnerablePawns(this.getActive());
       }
     }
   }
-  
+
   public void handleMateVariants() {
     if (game.board.getKing(this.getInactive()).isStalemate()) {
       game.callEventStalemate();
@@ -66,19 +69,19 @@ public class TurnHandler {
       }
     }
   }
-  
+
   public Player getActive() {
     return this.players[turn];
   }
-  
+
   public Player getInactive() {
     return this.players[(turn + 1) % 2];
   }
-  
+
   public Player getWhite() {
     return this.players[0];
   }
-  
+
   public Player getBlack() {
     return this.players[1];
   }
