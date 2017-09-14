@@ -4,6 +4,7 @@ import com.paul.game.map.Tile;
 import com.paul.game.piece.Pawn;
 import com.paul.game.piece.Piece;
 import com.paul.game.player.Player;
+import com.paul.game.player.PlayerMove;
 
 public class TurnHandler {
 
@@ -27,13 +28,22 @@ public class TurnHandler {
   }
 
   public void turn() {
-    handleEnPassantVuln();
-    handleValidMove();
-    handleMateVariants();
-    
-    turn = (turn + 1) % 2;
+    PlayerMove playerMove = new PlayerMove(game,
+        this.getActive(),
+        this.getActive().turn());
+
+    if (playerMove.isValidMove()) {
+      handleEnPassantVuln();
+      playerMove.executeMove();
+      handleMateVariants();
+
+      turn = (turn + 1) % 2;
+    }
   }
-  
+
+  /**
+   * Removes en passant vulnerable pawns from active player.
+   */
   public void handleEnPassantVuln() {
     for (Piece piece : game.board.getPieceList()) {
       if (piece instanceof Pawn
@@ -55,38 +65,6 @@ public class TurnHandler {
         game.callEventCheck(this.getInactive());
       }
     }
-  }
-  
-  public void handleValidMove() {
-    boolean valid = false;
-    Piece piece = null;
-    Tile moveFromTile = null;
-    Tile moveToTile = null;
-    
-    do {
-      int[] move = this.getActive().turn();
-      
-      if (move[0] == move[2] && move[1] == move[3]) {
-        continue;
-      }
-      
-      moveFromTile = game.board.getTileAt(move[0], move[1]);
-      moveToTile = game.board.getTileAt(move[2], move[3]);
-      
-      if (moveFromTile == null || moveToTile == null) {
-        continue;
-      }
-      
-      piece = moveFromTile.getPiece();
-      
-      valid = piece != null
-          && piece.isAllowedMove(moveToTile)
-          && piece.getOwner().equals(this.getActive())
-          && !game.board.getKing(this.getActive()).isCheckWithPieceAt(piece, moveToTile);
-      
-    } while (!valid);
-    
-    piece.moveTo(moveToTile);
   }
   
   public Player getActive() {
