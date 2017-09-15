@@ -53,7 +53,7 @@ public class Board {
     addPiece(new Knight(this, game.turn.getWhite(), 2, Game.height));
     addPiece(new Knight(this, game.turn.getWhite(), 7, Game.height));
     
-    addPiece(new Bishop(this, game.turn.getWhite(), 3, Game.height));;
+    addPiece(new Bishop(this, game.turn.getWhite(), 3, Game.height));
     addPiece(new Bishop(this, game.turn.getWhite(), 6, Game.height));
     
     addPiece(new Queen(this, game.turn.getWhite(), 4, Game.height));
