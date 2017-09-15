@@ -101,7 +101,7 @@ public class Board {
   
   public King getKing(Player player) {
     for (Piece p : this.getPieceList()) {
-      if (p instanceof King) {
+      if (p instanceof King && player.isWhite() == p.isWhite()) {
         return (King) p;
       }
     }
