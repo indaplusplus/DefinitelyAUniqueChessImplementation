@@ -105,7 +105,7 @@ public class Board {
         return (King) p;
       }
     }
-    
+
     return null;
   }
   

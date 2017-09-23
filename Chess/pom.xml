@@ -25,7 +25,7 @@
 
   <build>
     <finalName>${artifactId}-${version}</finalName>
-    <sourceDirectory>src/com/paul/game</sourceDirectory>
-    <testSourceDirectory>src/com/paul/test/junit</testSourceDirectory>
+    <sourceDirectory>/src/</sourceDirectory>
+    <testSourceDirectory>/src/</testSourceDirectory>
   </build>
 </project>
