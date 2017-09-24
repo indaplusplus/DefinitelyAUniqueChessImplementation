@@ -28,22 +28,24 @@ public class Promotion {
       if (piece instanceof Pawn
           && piece.isWhite() == player.isWhite()
           && isInRightEnd((Pawn) piece)) {
+        Piece newPiece = null;
         switch (player.promotion()) {
           case QUEEN:
-            this.board.addPiece(new Queen(board, player, piece.getX(), piece.getY()));
+            newPiece = new Queen(board, player, piece.getX(), piece.getY());
             break;
           case KNIGHT:
-            this.board.addPiece(new Knight(board, player, piece.getX(), piece.getY()));
+            newPiece = new Knight(board, player, piece.getX(), piece.getY());
             break;
           case ROOK:
-            this.board.addPiece(new Rook(board, player, piece.getX(), piece.getY()));
+            newPiece = new Rook(board, player, piece.getX(), piece.getY());
             break;
           case BISHOP:
-            this.board.addPiece(new Bishop(board, player, piece.getX(), piece.getY()));
+            newPiece = new Bishop(board, player, piece.getX(), piece.getY());
             break;
         }
-
+        this.board.addPiece(newPiece);
         this.board.getPieceList().remove(piece);
+        this.board.game.callEventPromotion(newPiece);
       }
     }
   }
