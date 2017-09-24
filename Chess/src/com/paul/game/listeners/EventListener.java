@@ -28,4 +28,10 @@ public interface EventListener {
    * @param victim The victim of the attack.
    */
   public void eventCheck(Player victim);
+
+  /**
+   * Calls when promotion occurs.
+   * @param piece The piece getting promoted.
+   */
+  public void eventPromotion(Piece piece);
 }

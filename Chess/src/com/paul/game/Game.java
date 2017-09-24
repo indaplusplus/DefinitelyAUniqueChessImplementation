@@ -49,4 +49,10 @@ public class Game {
       el.eventStalemate();
     }
   }
+
+  public void callEventPromotion(Piece piece) {
+    for (EventListener el : eventListeners) {
+      el.eventPromotion(piece);
+    }
+  }
 }
