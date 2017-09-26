@@ -26,4 +26,9 @@ public class ChessInput implements EventListener {
   public void eventCheck(Player victim) {
 
   }
+
+  @Override
+  public void eventPromotion(Piece piece) {
+
+  }
 }

@@ -30,4 +30,9 @@ public class ChessEvents implements EventListener {
   public void eventCheck(Player victim) {
     System.out.println("Check");
   }
+
+  @Override
+  public void eventPromotion(Piece piece) {
+
+  }
 }
