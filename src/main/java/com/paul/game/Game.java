@@ -26,6 +26,8 @@ public class Game {
   }
   
   public void callEventPieceKilled(Piece attack, Piece victim) {
+    this.turn.resetHalfMove();
+
     for (EventListener el : eventListeners) {
       el.eventPieceKilled(attack, victim);
     }

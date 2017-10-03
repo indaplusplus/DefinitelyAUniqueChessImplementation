@@ -2,6 +2,7 @@ package com.paul.game.player;
 
 import com.paul.game.Game;
 import com.paul.game.map.Tile;
+import com.paul.game.piece.Pawn;
 import com.paul.game.piece.Piece;
 
 public class PlayerMove {
@@ -42,6 +43,10 @@ public class PlayerMove {
     Tile moveToTile = game.board.getTileAt(move[2], move[3]);
 
     Piece piece = moveFromTile.getPiece();
+
+    if (piece instanceof Pawn) {
+      game.turn.resetHalfMove();
+    }
 
     piece.moveTo(moveToTile);
   }

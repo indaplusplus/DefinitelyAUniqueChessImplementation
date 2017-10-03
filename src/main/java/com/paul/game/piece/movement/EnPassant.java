@@ -16,6 +16,10 @@ public class EnPassant {
     this.board = board;
   }
 
+  public ArrayList<Pawn> getVulnerablePawns() {
+    return vulnerablePawns;
+  }
+
   public void addVulnerablePawn(Pawn pawn) {
     vulnerablePawns.add(pawn);
   }

@@ -12,6 +12,10 @@ public class TurnHandler {
   private int turn = 0;
   private Player[] players = new Player[2];
 
+  private boolean halfMoveJustReset = false;
+  private int halfMove = 0;
+  private int fullMove = 1;
+
   /**
    * @param player1 Player 1 - white.
    * @param player2 Player 2 - black.
@@ -38,6 +42,16 @@ public class TurnHandler {
       this.game.board.promotion.handlePromotions(this.getActive());
 
       handleMateVariants();
+
+      if (!halfMoveJustReset) {
+        halfMove++;
+      } else {
+        halfMoveJustReset = false;
+      }
+
+      if (!this.getActive().isWhite()) {
+        fullMove++;
+      }
 
       turn = (turn + 1) % 2;
     }
@@ -67,6 +81,19 @@ public class TurnHandler {
         game.callEventCheck(this.getInactive());
       }
     }
+  }
+
+  public void resetHalfMove() {
+    halfMove = 0;
+    halfMoveJustReset = true;
+  }
+
+  public int getHalfMove() {
+    return halfMove;
+  }
+
+  public int getFullMove() {
+    return fullMove;
   }
 
   public Player getActive() {
